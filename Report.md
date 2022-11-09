@@ -21,6 +21,16 @@ The following plots show the parapmter value distribution of each layer. It show
 
 I pruned the model based using pytorch pruning with L1 normalization. PyTorch only support unstructed pruning, and therefore the number of parameters will not change even if we pruned the model. It is because what unstructed pruning does is setting a certain amount of weights of the paramters to 0, which means we will still have the same number of paramters. That being said, the size of the model will not change, and so does the speed. 
 
+## Performance Analysis
+First, I tested the models on Huggieface's [language modeling example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling%29). The perplexity appears to increase dramatically as soon as we sparse the model for BERT and GPT-2. It seems perplexity varies slight for BART. The fact that BART is an encoder-decoder model may be the reason why the perplexity is more stable. 
+![Image](/plots/perplexity.png)
+
+Secondly, I tested the models on Huggieface's [text-classification example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/text-classification). 
+
+It seems that the accuracy of text classification decreases with the model get more sparsed, as shown in the plot. Since as the models are sparsed, more weights are set to 0, it makes sense the accuracy drops. The trend is as shown below in the plots.
+
+![Image](/plots/Text_Classification_Accuracy.png)
+
 
 ## Memory and Speed Analysis
 The Speed and Memory of the models are evaluted by Huggieface benchmark tool for data of Sequence Length of 64 and batch size of 128. The results are shown in the following table:
@@ -50,14 +60,7 @@ The Speed and Memory of the models are evaluted by Huggieface benchmark tool for
 ![Alt](/plots/required_time.png)
 
 We can tell that the memory space required does not change with the sparsity of the model, as we are using unstructed pruning. The times required vary slight. However, with a model of the same size, there is no significant improvement on speed with unstructed pruning.
-## Performance Analysis
-First, I tested the models on Huggieface's [language modeling example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling%29). The perplexity appears to vary slight by sparisity, yet no apparent difference is observed. 
 
-Secondly, I tested the models on Huggieface's [text-classification example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/text-classification). 
-
-It seems that the accuracy of text classification decreases with the model get more sparsed, as shown in the plot. Since as the models are sparsed, more weights are set to 0, it makes sense the accuracy drops. The trend is as shown below in the plots.
-
-![Image](/plots/Text_Classification_Accuracy.png)
 
 ## Challenges of Sparsification
 In this assignment, I used unstructed pruning, which does not help with the speed and size of the model. Yet, in structed pruning, this issue could be resolved. However, as we see in the performance analysis, pruning a model makes it less accurate. It seems that currently there has been no effective way to both reduce the size of a model and maintain its accuracy. 
