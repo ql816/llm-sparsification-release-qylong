@@ -22,10 +22,10 @@ The following plots show the parapmter value distribution of each layer. It show
 I pruned the model based using pytorch pruning with L1 normalization. PyTorch only support unstructed pruning, and therefore the number of parameters will not change even if we pruned the model. It is because what unstructed pruning does is setting a certain amount of weights of the paramters to 0, which means we will still have the same number of paramters. That being said, the size of the model will not change, and so does the speed. 
 
 ## Performance Analysis
-First, I tested the models on Huggieface's [language modeling example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling%29). The perplexity appears to increase dramatically as soon as we sparse the model for BERT and GPT-2. It seems perplexity varies slight for BART. The fact that BART is an encoder-decoder model may be the reason why the perplexity is more stable. 
+First, I tested the models on huggingface's [language modeling example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling%29). The perplexity appears to increase dramatically as soon as we sparse the model for BERT and GPT-2. It seems perplexity varies slight for BART. The fact that BART is an encoder-decoder model may be the reason why the perplexity is more stable. 
 ![Image](/plots/perplexity.png)
 
-Secondly, I tested the models on Huggieface's [text-classification example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/text-classification). 
+Secondly, I tested the models on huggingface's [text-classification example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/text-classification). 
 
 It seems that the accuracy of text classification decreases with the model get more sparsed, as shown in the plot. Since as the models are sparsed, more weights are set to 0, it makes sense the accuracy drops. The trend is as shown below in the plots.
 
@@ -33,7 +33,7 @@ It seems that the accuracy of text classification decreases with the model get m
 
 
 ## Memory and Speed Analysis
-The Speed and Memory of the models are evaluted by Huggieface benchmark tool for data of Sequence Length of 64 and batch size of 128. The results are shown in the following table:
+The Speed and Memory of the models are evaluted by huggingface benchmark tool for data of Sequence Length of 64 and batch size of 128. The results are shown in the following table:
 | Model | Memory in MB | Time in S|
 |--|--| --|
 | Bart | 2388 | 0.4828|
