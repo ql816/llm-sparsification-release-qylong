@@ -8,8 +8,14 @@ Encoder-Decoder: BART
 
 I generated three plots each represent the distribution of the plots for the three models. One can observe that a great portion of the parameters in the model is close to zero.
 
+![Alt](/plots/bart-num-dist.png)
+![Alt](/plots/bert-num-dist.png)
+![Alt](/plots/gpt-2-num-dist.png)
 
 The following plots show the parapmter value distribution of each layer. It shows that the layer-wise distributions of parameter values do not differ a lot, with many paramter's value close to zero.
+![Alt](/plots/bart-layer-dist.png)
+![Alt](/plots/bert-layer-dist.png)
+![Alt](/plots/gpt-2-layer-dist.png)
 
 ## Model Sparsification
 
@@ -39,11 +45,19 @@ The Speed and Memory of the models are evaluted by Huggieface benchmark tool for
 | Bert - 0.95| 2624 |0.7134|
 | Bert - 0.99| 2624 |0.7159|
 
+![Alt](/plots/required_memory.png)
+
+![Alt](/plots/required_time.png)
+
 We can tell that the memory space required does not change with the sparsity of the model, as we are using unstructed pruning. The times required vary slight. However, with a model of the same size, there is no significant improvement on speed with unstructed pruning.
 ## Performance Analysis
 First, I tested the models on Huggieface's [language modeling example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling%29). The perplexity appears to vary slight by sparisity, yet no apparent difference is observed. 
 
-Secondly, I tested the models on Huggieface's text-classification example.  It seems that the accuracy of text classification decreases with the model get more sparsed, as shown in the plot. Since as the models are sparsed, more weights are set to 0, it makes sense the accuracy drops. 
+Secondly, I tested the models on Huggieface's [text-classification example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/text-classification). 
+
+It seems that the accuracy of text classification decreases with the model get more sparsed, as shown in the plot. Since as the models are sparsed, more weights are set to 0, it makes sense the accuracy drops. The trend is as shown below in the plots.
+
+![Image](/plots/Text_Classification_Accuracy.png)
 
 ## Challenges of Sparsification
 In this assignment, I used unstructed pruning, which does not help with the speed and size of the model. Yet, in structed pruning, this issue could be resolved. However, as we see in the performance analysis, pruning a model makes it less accurate. It seems that currently there has been no effective way to both reduce the size of a model and maintain its accuracy. 
